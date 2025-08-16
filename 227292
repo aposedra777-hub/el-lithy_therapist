@@ -1,0 +1,13 @@
+El Lithy Therapist — Ready repo
+Generated: 2025-08-16
+
+Files:
+- index.html (landing)
+- app.html (full app)
+- default_deck.json (Arabic DSM-like disorders + MBTI)
+- manifest.json
+- sw.js
+- splash.png
+- icons/
+
+Publish on GitHub Pages by pushing these files to a repository root and enabling Pages.

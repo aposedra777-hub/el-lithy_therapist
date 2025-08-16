@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El Lithy Therapist — App</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b7ecb">
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#031026,#071127);color:#fff;margin:0}
+.container{max-width:980px;margin:12px auto;padding:16px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#0b7ecb,#12a9ff)}
+.card{background:linear-gradient(180deg,#081827,#091f36);border-radius:12px;padding:22px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.term{font-size:28px;font-weight:700}
+.phon{color:#9fbbe6;margin-top:6px}
+.def{margin-top:12px;color:#dbefff}
+.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+button{padding:10px 14px;border-radius:10px;border:0;background:rgba(255,255,255,0.03);color:#fff;font-weight:700;cursor:pointer}
+.primary{background:linear-gradient(90deg,#0b7ecb,#12a9ff);color:#022}
+.sidebar{margin-top:12px;padding:12px;background:linear-gradient(180deg,#071827,#082434);border-radius:12px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header"><div style="display:flex;align-items:center;gap:12px"><div class="logo"></div><div><h2 style="margin:0">El Lithy Therapist</h2><div style="color:#9fbbe6">كروت ذكية للمصطلحات النفسية</div></div></div><div><button id="exportBtn">تصدير JSON</button></div></div>
+  <div class="card" id="card"><div class="term" id="term">جاري التحميل...</div><div class="phon" id="phon"></div><div class="def" id="def"></div></div>
+  <div class="controls"><button id="prevBtn">السابق</button><button id="flipBtn">انقلب</button><button id="nextBtn" class="primary">التالي</button><button id="knowBtn">عرفته ✓</button><button id="dontBtn">راجع ✗</button></div>
+  <div class="sidebar"><input id="q" placeholder="ابحث..." style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff"><div style="margin-top:8px">العدد: <span id="total">0</span> • معروف: <span id="knownCount">0</span></div></div>
+</div>
+<script>
+let CARDS = [];
+fetch('default_deck.json').then(r=>r.json()).then(d=>{ CARDS = d; init(); });
+const state = { order:[], i:0, flipped:false, known:new Set(JSON.parse(localStorage.getItem('known')||'[]')) };
+const el = id => document.getElementById(id);
+function init(){ state.order = CARDS.map((_,i)=>i); render(); updateStats(); }
+function render(){ if(!CARDS.length){ el('term').textContent='لا يوجد بطاقات'; return;} const c = CARDS[state.order[state.i]]; el('term').textContent=c.term; el('phon').textContent=c.phon||''; el('def').textContent=c.def||''; el('total').textContent = CARDS.length; }
+function next(){ state.i=(state.i+1)%state.order.length; render(); }
+function prev(){ state.i=(state.i-1+state.order.length)%state.order.length; render(); }
+function flip(){ state.flipped=!state.flipped; const def = document.getElementById('def'); def.style.display = state.flipped ? 'block' : 'none'; }
+function markKnown(v){ const id = state.order[state.i]; if(v) state.known.add(id); else state.known.delete(id); localStorage.setItem('known', JSON.stringify([...state.known])); updateStats(); next(); }
+function updateStats(){ document.getElementById('knownCount').textContent = state.known.size; }
+document.getElementById('nextBtn').addEventListener('click', next); document.getElementById('prevBtn').addEventListener('click', prev); document.getElementById('flipBtn').addEventListener('click', flip); document.getElementById('knowBtn').addEventListener('click', ()=>markKnown(true)); document.getElementById('dontBtn').addEventListener('click', ()=>markKnown(false));
+document.getElementById('exportBtn').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(CARDS,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='psych_deck.json'; a.click(); URL.revokeObjectURL(a.href); });
+</script>
+</body>
+</html>

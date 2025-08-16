@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El Lithy Therapist — Flashcards</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b7ecb">
+</head>
+<body style="font-family:Arial,Helvetica,sans-serif;background:#071127;color:#fff;margin:0;padding:0">
+<div style="padding:28px;text-align:center;background:linear-gradient(180deg,#0e3b5a,#072338)">
+  <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#0b7ecb,#12a9ff);display:inline-block;margin-left:12px"></div>
+  <h1 style="margin:8px 0;font-size:28px">El Lithy Therapist</h1>
+  <p style="margin:0;color:#cfe7ff">أبليكشن كروت ذكية للمصطلحات النفسية — بالعربي</p>
+</div>
+<div style="max-width:980px;margin:18px auto;padding:16px">
+  <h2>ابدأ المذاكرة</h2>
+  <p id="count">جاري التحميل...</p>
+  <p><a id="open" href="app.html">فتح التطبيق الكامل</a></p>
+  <img src="splash.png" alt="Splash" style="max-width:100%;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.4)">
+  <p style="color:#9fbbe6;margin-top:12px">تم تجهيز الحزمة بتاريخ 2025-08-16 — اسم التطبيق: El Lithy Therapist</p>
+</div>
+</body>
+</html>
